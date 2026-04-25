@@ -1,5 +1,6 @@
 #include "..\include\digit.h"
 #include <random>
+#include <iostream>
 
 Digit::Digit() : digit(0) {};
 Digit::Digit(unsigned char inputDigit, bool firstDigit){
@@ -34,10 +35,14 @@ bool Digit::addDigit(Digit digitToAdd) {
     this->digit += digitToAdd.digit;
     
     // Carry control
-    if(this->digit > 10) {
+    if(this->digit >= 10) {
         this->digit = this->digit % 10;
         return true;
     }
 
     return false;
+}
+
+void Digit::printDigit() {
+    std::cout << char(digit + '0');
 }

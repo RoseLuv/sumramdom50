@@ -1,8 +1,11 @@
+#pragma once
 #include "number.h"
+
 class Controller {
 public:
-    Controller(Number& num) : num(num) {};
+    Controller(Number& num);
     void run();
+    void showResult();
 private:    
-    Number& num;
+    Number num;
 };

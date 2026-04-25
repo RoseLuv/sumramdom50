@@ -1,6 +1,6 @@
 #include <vector>
+#pragma once
 #include "digit.h"
-
 
 class Number {
 private:
@@ -12,5 +12,8 @@ public:
     Number();
     Number(int);
     void genNumber();
-    bool addNumber(Number);
+    void addNumber(Number);
+    void printNumber();
+    void emptyNumber();
+    void incLength();
 };

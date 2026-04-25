@@ -4,7 +4,7 @@ class Digit{
 public:
     Digit();
     Digit(unsigned char, bool);
-    void genDigit();
+    void genDigit(bool);
     bool addDigit(Digit);
 
 private:

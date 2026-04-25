@@ -1,7 +1,7 @@
 #include "..\include\digit.h"
 #include <random>
 
-Digit::Digit() : digit(1) {};
+Digit::Digit() : digit(0) {};
 Digit::Digit(unsigned char inputDigit, bool firstDigit){
     if(inputDigit > 9) {
         this->digit = 9;
@@ -14,9 +14,13 @@ Digit::Digit(unsigned char inputDigit, bool firstDigit){
     }
 };
 
-void Digit::genDigit() {
+void Digit::genDigit(bool firstDigit) {
     // Generates a pseudo-random number
-    this->digit = rand() % 9;
+    if(firstDigit) {
+        this->digit = rand() % 9 + 1;
+    } else {
+        this->digit = rand() % 10;
+    }
 }
 
 bool Digit::addDigit(Digit digitToAdd) {

@@ -1,4 +1,4 @@
-#include "number.h"
+#include "..\include\number.h"
 #include <cstdlib>
 
 Number::Number() : length(1){
@@ -15,7 +15,7 @@ Number::Number(int length) {
         this->length = length;
     }
 
-    digits.resize(this->length);
+    digits.resize(this->length, Digit(0, false));
     negative = false;
 }
 
@@ -26,8 +26,26 @@ void Number::genNumber() {
         negative = false;
     }
 
-    digits[0] = rand() % 9;
+    digits[0].genDigit(true);
     for(int i = 1; i < length - 1; i++) {
-        digits[i] = rand() % 9;
+        digits[i].genDigit(false);
+    }
+}
+
+bool Number::addNumber(Number numberToAdd) {
+    if (numberToAdd.length > 50) {
+        return;
+    } 
+    if (numberToAdd.length < 1) {
+        return;
+    }
+    int j;
+    // Adds up two digits 
+    for(int i = 0; i < numberToAdd.length - 1; i++) {
+        // ADD carry functioning 
+
+        if(digits[i].addDigit(numberToAdd.digits[i])){
+            digits[i + 1].addDigit(Digit(1, false));
+        }
     }
 }

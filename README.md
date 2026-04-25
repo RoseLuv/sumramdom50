@@ -1,5 +1,5 @@
 # siemens-zadanie
 
 TODO:
-    Change number.h to use Digit instead of vector<int>.
+    ADD carry function, so that when it is 99 + 1 it changes to 100 correctly. 
     

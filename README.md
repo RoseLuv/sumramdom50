@@ -1,4 +1,4 @@
-# siemens-zadanie
+# sumramdom50
 
 TODO:
     ADD carry function, so that when it is 99 + 1 it changes to 100 correctly. 

@@ -30,12 +30,12 @@ void Number::genNumber() {
         negative = false;
     }
 
-    digits.push_back(Digit());
-    digits.back().genDigit(true);
     for(int i = 1; i < length; i++) {
         digits.push_back(Digit());
         digits.back().genDigit(false);
     }
+    digits.push_back(Digit());
+    digits.back().genDigit(true);
 }
 
 void Number::addNumber(Number numberToAdd) {
@@ -45,10 +45,26 @@ void Number::addNumber(Number numberToAdd) {
     int j;
     // Adds up two digits 
     for(int i = 0; i < numberToAdd.length; i++) {
-        // ADD carry functioning 
-
         if(digits[i].addDigit(numberToAdd.digits[i])){
-            digits[i + 1].addDigit(Digit(1, false));
+            j = 1;
+            while(digits[i + j].addDigit(Digit(1, false))) {
+                j++;
+            }
+        }
+    }
+}
+// Rename to addPosToNeg???
+void Number::subNumber(Number numberToSub) {
+    if(numberToSub.length > 50 || numberToSub.length < 1) {
+        return;
+    }
+    int j;
+    for(int i = 0; i < numberToSub.length; i++) {
+        if(digits[i].subDigit(numberToSub.digits[i])) {
+            j = 1;
+            while(numberToSub.digits[i + j].subCarry()) {
+                j++;
+            }
         }
     }
 }
@@ -56,6 +72,9 @@ void Number::addNumber(Number numberToAdd) {
 void Number::printNumber() {
     for(int i = 0; i < length; i++){
         digits[i].printDigit();
+    }
+    if(negative) {
+        std::cout << '-';
     }
     std::cout << std::endl;
 }
@@ -73,4 +92,16 @@ void Number::incLength() {
         return;
     }
     length++;
+}
+
+bool Number::isNegative() {
+    return this->negative;
+}
+
+void Number::negate() {
+    if(negative) {
+        negative = false;
+    } else {
+        negative = true;
+    }
 }

@@ -16,4 +16,7 @@ public:
     void printNumber();
     void emptyNumber();
     void incLength();
+    bool isNegative();
+    void subNumber(Number);
+    void negate();
 };

@@ -8,7 +8,8 @@ public:
     void genDigit(bool);
     bool addDigit(Digit);
     void printDigit();
-
+    bool subDigit(Digit);
+    bool subCarry();
 private:
     unsigned char digit;
 };

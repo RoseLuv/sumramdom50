@@ -43,6 +43,31 @@ bool Digit::addDigit(Digit digitToAdd) {
     return false;
 }
 
+bool Digit::subDigit(Digit digitToSub) {
+    if(digitToSub.digit > 9) {
+        return false;
+        // vvv Should be impossible because it is unsigned...
+    } else if (digitToSub.digit < 0 ) {
+        return false;
+    }
+
+    if(digitToSub.digit > this-> digit) {
+        this->digit = digitToSub.digit - this->digit;
+        return false;
+    }
+    this->digit -= 10 + digitToSub.digit;
+    return true;
+}
+
+bool Digit::subCarry() {
+    if(this->digit == 0) {
+        this->digit = 9;
+        return true;
+    }
+    this->digit -= 1;
+    return false;
+}
+
 void Digit::printDigit() {
     std::cout << char(digit + '0');
 }

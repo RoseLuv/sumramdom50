@@ -11,6 +11,7 @@ private:
 public:
     Number();
     Number(int);
+    Number(int, std::vector<Digit>, bool);
     void genNumber();
     void addNumber(Number);
     void printNumber();
@@ -19,4 +20,6 @@ public:
     bool isNegative();
     void subNumber(Number);
     void negate();
+    void pushIntoDigits(unsigned char);
+    const std::vector<Digit>& getDigits();
 };

@@ -20,6 +20,12 @@ Number::Number(int length) {
     negative = false;
 }
 
+Number::Number(int length, std::vector<Digit> digits, bool neg) {
+    this->length = length;
+    this->digits = digits;
+    negative = false;
+}
+
 void Number::genNumber() {
     // Change this, its bad, rethink this
     digits.clear();
@@ -104,4 +110,12 @@ void Number::negate() {
     } else {
         negative = true;
     }
+}
+
+void Number::pushIntoDigits(unsigned char digit) {
+    this->digits.push_back(Digit(digit, false));
+}
+
+const std::vector<Digit>& Number::getDigits() {
+    return this->digits;
 }

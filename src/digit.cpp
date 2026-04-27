@@ -75,3 +75,7 @@ bool Digit::subCarry() {
 void Digit::printDigit() {
     std::cout << char(digit + '0');
 }
+
+unsigned char Digit::getDigit() {
+    return digit;
+}

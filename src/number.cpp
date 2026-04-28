@@ -53,7 +53,7 @@ void Number::addNumber(Number numberToAdd) {
     for(int i = 0; i < numberToAdd.length; i++) {
         if(digits[i].addDigit(numberToAdd.digits[i])){
             j = 1;
-            while(digits[i + j].addDigit(Digit(1, false))) {
+            while(i + j < length && digits[i + j].addDigit(Digit(1, false))) {
                 j++;
             }
         }
@@ -76,11 +76,19 @@ void Number::subNumber(Number numberToSub) {
 }
 
 void Number::printNumber() {
-    for(int i = 0; i < length; i++){
-        digits[i].printDigit();
-    }
     if(negative) {
         std::cout << '-';
+    } else {
+        std::cout << " "; 
+    }
+    bool digitStarted = false;
+    for(int i = length - 1; i >= 0; i--) {
+        if(!digitStarted && digits[i].getDigit() != 0) {
+            digits[i].printDigit();
+            digitStarted = true;
+        } else if(digitStarted) {
+            digits[i].printDigit();
+        }
     }
     std::cout << std::endl;
 }
@@ -116,6 +124,18 @@ void Number::pushIntoDigits(unsigned char digit) {
     this->digits.push_back(Digit(digit, false));
 }
 
-const std::vector<Digit>& Number::getDigits() {
+std::vector<Digit>& Number::getDigits() {
     return this->digits;
+}
+
+void Number::setLength(int newLength) {
+    this->length = newLength;
+}
+
+int Number::getLength() {
+    return this->length;
+}
+
+void Number::decLength() {
+    this->length -= 1;
 }

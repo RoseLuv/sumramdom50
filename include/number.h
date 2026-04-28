@@ -21,5 +21,8 @@ public:
     void subNumber(Number);
     void negate();
     void pushIntoDigits(unsigned char);
-    const std::vector<Digit>& getDigits();
+    std::vector<Digit>& getDigits();
+    void setLength(int);
+    int getLength();
+    void decLength();
 };

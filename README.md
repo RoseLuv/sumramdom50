@@ -1,4 +1,5 @@
 # sumramdom50
 
 TODO:
-    Fix sub carry..
+    Change how length works
+    Do print result method

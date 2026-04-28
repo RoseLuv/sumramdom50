@@ -50,7 +50,6 @@ bool Digit::subDigit(Digit digitToSub) {
     } else if (digitToSub.digit < 0 ) {
         return false;
     }
-
     if(digitToSub.digit > this->digit) {
         this->digit = digitToSub.digit - this->digit;
         return false;
@@ -60,6 +59,7 @@ bool Digit::subDigit(Digit digitToSub) {
         return false;
     }
     this->digit = 10 + digitToSub.digit - this->digit;
+    
     return true;
 }
 

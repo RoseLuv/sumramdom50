@@ -5,10 +5,13 @@
 Digit::Digit() : digit(0) {};
 Digit::Digit(unsigned char inputDigit, bool firstDigit){
     if(inputDigit > 9) {
+        std::cout << "Invalid Digit! Highest allowed is 9!\nChanging digit value to 9!\n";
         this->digit = 9;
     } else if(inputDigit < 1 && firstDigit) {
+        std::cout << "Invalid digit! Digit is first and lower than 0!\n Changing digit to 1!\n";
         this->digit = 1;
     } else if(inputDigit < 0) {
+        std::cout << "Invalid digit! Digit is lower than 0!\n Changing digit to 0\n";
         this->digit = 0;
     } else{
         this->digit = inputDigit;

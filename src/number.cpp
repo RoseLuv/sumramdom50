@@ -2,14 +2,14 @@
 #include <cstdlib>
 #include <iostream>
 
-Number::Number() : length(50){
+Number::Number() : length(51){
     digits.reserve(51);
     negative = false;
 }
 
 Number::Number(int length) {
-    if(length > 50) {
-        this->length = 50;
+    if(length > 51) {
+        this->length = 51;
     } else if(length < 1) {
         this->length = 1;
     } else {
@@ -20,10 +20,11 @@ Number::Number(int length) {
     negative = false;
 }
 
+// For testing, not to be used normally...
 Number::Number(int length, std::vector<Digit> digits, bool neg) {
     this->length = length;
     this->digits = digits;
-    negative = false;
+    negative = neg;
 }
 
 void Number::genNumber() {
@@ -68,7 +69,7 @@ void Number::subNumber(Number numberToSub) {
     for(int i = 0; i < numberToSub.length; i++) {
         if(digits[i].subDigit(numberToSub.digits[i])) {
             j = 1;
-            while(numberToSub.digits[i + j].subCarry()) {
+            while(i + j < numberToSub.length && numberToSub.digits[i + j].subCarry()) {
                 j++;
             }
         }
@@ -79,7 +80,7 @@ void Number::printNumber() {
     if(negative) {
         std::cout << '-';
     } else {
-        std::cout << " "; 
+        std::cout << "+"; 
     }
     bool digitStarted = false;
     for(int i = length - 1; i >= 0; i--) {
@@ -120,22 +121,7 @@ void Number::negate() {
     }
 }
 
-void Number::pushIntoDigits(unsigned char digit) {
-    this->digits.push_back(Digit(digit, false));
-}
-
 std::vector<Digit>& Number::getDigits() {
     return this->digits;
 }
 
-void Number::setLength(int newLength) {
-    this->length = newLength;
-}
-
-int Number::getLength() {
-    return this->length;
-}
-
-void Number::decLength() {
-    this->length -= 1;
-}

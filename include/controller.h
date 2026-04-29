@@ -3,9 +3,11 @@
 
 class Controller {
 public:
-    Controller(Number& num);
+    Controller(Number& num, Number& calculatingNumber);
     void run();
-    void showResult();
+    void printResult();
+    void calcResult();
 private:    
-    Number num;
+    Number resultNumber;
+    Number calculatingNumber;
 };

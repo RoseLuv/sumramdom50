@@ -20,9 +20,5 @@ public:
     bool isNegative();
     void subNumber(Number);
     void negate();
-    void pushIntoDigits(unsigned char);
     std::vector<Digit>& getDigits();
-    void setLength(int);
-    int getLength();
-    void decLength();
 };

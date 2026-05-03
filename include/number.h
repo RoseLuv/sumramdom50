@@ -21,4 +21,5 @@ public:
     void subNumber(Number);
     void negate();
     std::vector<Digit>& getDigits();
+    int getLength();
 };

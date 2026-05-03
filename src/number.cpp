@@ -20,6 +20,7 @@ Number::Number(int length) {
     negative = false;
 }
 
+
 // For testing, not to be used normally...
 Number::Number(int length, std::vector<Digit> digits, bool neg) {
     this->length = length;
@@ -46,7 +47,7 @@ void Number::genNumber() {
 }
 
 void Number::addNumber(Number numberToAdd) {
-    if (numberToAdd.length > 50 || numberToAdd.length < 1) {
+    if (numberToAdd.length > 50 || numberToAdd.length < 1 || numberToAdd.length > length) {
         return;
     } 
     int j;
@@ -91,6 +92,9 @@ void Number::printNumber() {
             digits[i].printDigit();
         }
     }
+    if(!digitStarted) {
+        std::cout << '0';
+    }
     std::cout << std::endl;
 }
 
@@ -124,4 +128,7 @@ void Number::negate() {
 std::vector<Digit>& Number::getDigits() {
     return this->digits;
 }
-
+// Only used for testing
+int Number::getLength() {
+    return this->length;
+}

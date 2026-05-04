@@ -13,12 +13,12 @@ public:
     Number(int);
     Number(int, std::vector<Digit>, bool);
     void genNumber();
-    void addNumber(Number);
+    Number addNumber(Number);
     void printNumber();
     void emptyNumber();
     void incLength();
     bool isNegative();
-    void subNumber(Number);
+    Number subNumber(Number);
     void negate();
     std::vector<Digit>& getDigits();
     int getLength();

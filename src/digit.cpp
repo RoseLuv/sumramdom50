@@ -47,22 +47,19 @@ bool Digit::addDigit(Digit digitToAdd) {
 }
 
 bool Digit::subDigit(Digit digitToSub) {
-    if(digitToSub.digit > 9) {
+    if (digitToSub.digit > 9) {
         return false;
         // vvv Should be impossible because it is unsigned...
     } else if (digitToSub.digit < 0 ) {
         return false;
     }
-    if(digitToSub.digit > this->digit) {
-        this->digit = digitToSub.digit - this->digit;
-        return false;
-    } 
-    if(digitToSub.digit == this->digit) {
-        this->digit = 0;
-        return false;
+
+    if (this->digit >= digitToSub.digit) {
+        this->digit = this->digit - digitToSub.digit;
+        return false; 
     }
-    this->digit = 10 + digitToSub.digit - this->digit;
-    
+
+    this->digit = 10 + this->digit - digitToSub.digit;
     return true;
 }
 

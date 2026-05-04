@@ -13,16 +13,31 @@ void Controller::run() {
 }
 
 void Controller::calcResult() {
+    int absDifference;
     for(int i = 0; i < 50; i++) {
         calculatingNumber.genNumber();
-        std::cout << "Number " << i + 1 << ":\n     ";
+        //std::cout << "Number " << i + 1 << ":\n     ";
         calculatingNumber.printNumber();
         if(resultNumber.isNegative() && calculatingNumber.isNegative() ||
             !resultNumber.isNegative() && !calculatingNumber.isNegative()) {
-            resultNumber.addNumber(calculatingNumber);
+            //std::cout << "calling r.add.c if both negative or positive\n";
+            if(calculatingNumber.getLength() > getResultNumActualLength()) {
+                resultNumber = calculatingNumber.addNumber(resultNumber);
+            } else {
+                resultNumber = resultNumber.addNumber(calculatingNumber); 
+            }
         } else {
-            resultNumber.subNumber(calculatingNumber);
-            resultNumber.negate();
+            absDifference = compareAbs();
+            if(absDifference == -1) {
+                //std::cout << "calling r.add.c if -1\n";
+                resultNumber = resultNumber.subNumber(calculatingNumber);
+            } else if(absDifference == 1) {
+                //std::cout << "calling c.add.r if 1\n";
+                resultNumber = calculatingNumber.subNumber(resultNumber);
+            } else {
+                //std::cout << "calling c.add.r if 0\n";
+                resultNumber = resultNumber.subNumber(calculatingNumber);
+            }
         }
         calculatingNumber.incLength();
     }
@@ -52,5 +67,35 @@ void Controller::printResult() {
     std::cout << '\n';
     std::cout << "Full Result:\n     ";
     resultNumber.printNumber();
+}
 
+int Controller::getResultNumActualLength() {
+    int i =resultNumber.getDigits().size() - 1;
+    while(i > 0) {
+        if(resultNumber.getDigits()[i].getDigit() != 0){
+            return i + 1;
+        }
+        i--;
+    }
+    return 1;
+} 
+
+int Controller::compareAbs(){
+    int resultNumLength = getResultNumActualLength();
+    if(calculatingNumber.getLength() > resultNumLength) {
+        return 1;
+    } else if(calculatingNumber.getLength() < resultNumLength) {
+        return -1;
+    }
+
+    std::vector<Digit> calculatingDigits = calculatingNumber.getDigits();
+    std::vector<Digit> resultDigits = resultNumber.getDigits();
+    for(int i = resultNumLength - 1; i >= 0; i--) {
+        if(calculatingDigits[i].getDigit() < resultDigits[i].getDigit() ){
+            return -1;
+        } else if(calculatingDigits[i].getDigit() > resultDigits[i].getDigit()) {
+            return 1;
+        }
+    }
+    return 0;
 }

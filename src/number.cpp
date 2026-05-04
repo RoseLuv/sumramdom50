@@ -46,35 +46,46 @@ void Number::genNumber() {
     digits.back().genDigit(true);
 }
 
-void Number::addNumber(Number numberToAdd) {
-    if (numberToAdd.length > 50 || numberToAdd.length < 1 || numberToAdd.length > length) {
-        return;
+Number Number::addNumber(const Number numberToAdd) {
+    Number result = *this;
+    if (numberToAdd.length > 50 || numberToAdd.length < 1) {
+        return result;
     } 
     int j;
     // Adds up two digits 
     for(int i = 0; i < numberToAdd.length; i++) {
-        if(digits[i].addDigit(numberToAdd.digits[i])){
+        if(result.digits[i].addDigit(numberToAdd.digits[i])){
             j = 1;
-            while(i + j < length && digits[i + j].addDigit(Digit(1, false))) {
+            while(i + j < result.length && result.digits[i + j].addDigit(Digit(1, false))) {
                 j++;
+            }
+            if(i + j == result.length) {
+                result.incLength();
+                result.digits.push_back(Digit(1, true));
             }
         }
     }
+    return result;
 }
-// Rename to addPosToNeg???
-void Number::subNumber(Number numberToSub) {
+
+
+Number Number::subNumber(Number numberToSub) {
+    Number result = *this;
+
     if(numberToSub.length > 50 || numberToSub.length < 1) {
-        return;
+        return result;
     }
     int j;
     for(int i = 0; i < numberToSub.length; i++) {
-        if(digits[i].subDigit(numberToSub.digits[i])) {
+        if(result.digits[i].subDigit(numberToSub.digits[i])) {
             j = 1;
-            while(i + j < numberToSub.length && numberToSub.digits[i + j].subCarry()) {
+
+            while(i + j < result.length && result.digits[i + j].subCarry()) {
                 j++;
             }
         }
     }
+    return result;
 }
 
 void Number::printNumber() {
@@ -128,7 +139,7 @@ void Number::negate() {
 std::vector<Digit>& Number::getDigits() {
     return this->digits;
 }
-// Only used for testing
+
 int Number::getLength() {
     return this->length;
 }

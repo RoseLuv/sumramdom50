@@ -11,7 +11,7 @@
 int main() {
     srand(time(NULL));
     Number toAddNumber = Number(1);
-    Number resultNumber = Number(51);
+    Number resultNumber = Number(1);
     Controller controller(resultNumber, toAddNumber);
     controller.run();
 }

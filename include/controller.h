@@ -7,7 +7,9 @@ public:
     void run();
     void printResult();
     void calcResult();
-private:    
+    int getResultNumActualLength();
+    int compareAbs();
+private:   
     Number resultNumber;
     Number calculatingNumber;
 };

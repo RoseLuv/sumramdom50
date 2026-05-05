@@ -63,14 +63,6 @@ bool Digit::subDigit(Digit digitToSub) {
     return true;
 }
 
-bool Digit::subCarry() {
-    if(this->digit == 0) {
-        this->digit = 9;
-        return true;
-    }
-    this->digit -= 1;
-    return false;
-}
 
 void Digit::printDigit() {
     std::cout << char(digit + '0');

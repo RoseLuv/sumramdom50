@@ -22,4 +22,6 @@ public:
     void negate();
     std::vector<Digit>& getDigits();
     int getLength();
+    int getLengthWithoutLeading();
+    int compareAbsWith(Number);
 };

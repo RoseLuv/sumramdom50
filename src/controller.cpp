@@ -7,6 +7,7 @@ Controller::Controller(Number& resultNumber, Number& calculatingNumber) {
 }
 
 void Controller::run() {
+    // empties result number so there is no 'garbage' in it
     resultNumber.emptyNumber();
     calcResult();
     printResult();
@@ -14,17 +15,24 @@ void Controller::run() {
 
 void Controller::calcResult() {
     int absDifference;
+    // Adds 50 numbers together
     for(int i = 0; i < 50; i++) {
+        // Generate the next number to be added
         calculatingNumber.genNumber();
-        calculatingNumber.printNumber();
-        if(resultNumber.isNegative() && calculatingNumber.isNegative() ||
-            !resultNumber.isNegative() && !calculatingNumber.isNegative()) {
+        //calculatingNumber.printNumber();
+        
+        // Adds to numbers together if they have the same sign
+        // Adds the smaller number to the larger one
+        if((resultNumber.isNegative() && calculatingNumber.isNegative()) ||
+            (!resultNumber.isNegative() && !calculatingNumber.isNegative())) {
             if(calculatingNumber.getLength() > resultNumber.getLengthWithoutLeading()) {
                 resultNumber = calculatingNumber.doOperation(resultNumber, false);
             } else {
                 resultNumber = resultNumber.doOperation(calculatingNumber, false); 
             }
         } else {
+            // Subtracts two numbers if they have a different sign
+            // Subtracts the smaller number from the larger one
             absDifference = resultNumber.compareAbsWith(calculatingNumber);
             if(absDifference == 1) {
                 resultNumber = calculatingNumber.doOperation(resultNumber, true);
@@ -32,34 +40,28 @@ void Controller::calcResult() {
                 resultNumber = resultNumber.doOperation(calculatingNumber, true);
             }
         }
+        // After every loop the calculating number has to get bigger
         calculatingNumber.incLength();
     }
 }
 
 void Controller::printResult() {
     int i = resultNumber.getLengthWithoutLeading() - 1;
-    int numbersPrinted = 0;
-    bool digitStarted = false;
-    std::cout << "Result:\n     ";
-    while(i != 0 && numbersPrinted != 10) {
-        if(digitStarted) {
-            resultNumber.getDigits()[i].printDigit();
-            numbersPrinted++;
-        } else if(!digitStarted && 
-            resultNumber.getDigits()[i].getDigit() >= 0 &&
-            resultNumber.getDigits()[i].getDigit() <= 9) {
-            if(resultNumber.isNegative()) {
-                std::cout << '-';
-            } else {
-                std::cout << '+';
-            }
-            resultNumber.getDigits()[i].printDigit();
-            digitStarted = true;
-            numbersPrinted++;
-        }
+    int digitsPrinted = 0;
+    std::cout << "Result:\n";
+    std::vector<Digit> resultNumberDigits = resultNumber.getDigits();
+    if(resultNumber.isNegative()) {
+        std::cout << '-';
+    } else {
+        std::cout << '+';
+    }
+    while(i != 0 && digitsPrinted != 10) {
+        resultNumberDigits[i].printDigit();
         i--;
+        digitsPrinted++;
     }
     std::cout << '\n';
-    std::cout << "Full Result:\n     ";
+    std::cout << "Full Result:\n";
     resultNumber.printNumber();
 }
+

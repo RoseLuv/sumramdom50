@@ -20,7 +20,6 @@ Number::Number(int length) {
     negative = false;
 }
 
-
 // For testing, not to be used normally...
 Number::Number(int length, std::vector<Digit> digits, bool neg) {
     this->length = length;
@@ -30,19 +29,24 @@ Number::Number(int length, std::vector<Digit> digits, bool neg) {
 
 void Number::genNumber() {
     // Change this, its bad, rethink this
+
     digits.clear();
     digits.reserve(length);
+    
+    // Choose at random the sign
     if(rand() % 2 == 0) {
         negative = true;
     } else {
         negative = false;
     }
 
+    // Generate digits from 0 - 9
     for(int i = 1; i < length; i++) {
         digits.push_back(Digit());
         digits.back().genDigit(false);
     }
 
+    // Generate most significant number from 1 - 9
     digits.push_back(Digit());
     digits.back().genDigit(true);
 }
@@ -51,11 +55,15 @@ void addDigitLoop(Number& result, Number secondNumber, int i){
     int j;
     std::vector<Digit>& resultDigits = result.getDigits();
     std::vector<Digit>& secondNumberDigits = secondNumber.getDigits();
+    // Add digit from index i. If there is a carry, it returns true.
+    // For example: ..1 + ..9 == true and ..1 + ..7 == false
     if(resultDigits[i].addDigit(secondNumberDigits[i])){
             j = 1;
+            // Propagating carry, so 1 + 1999 (9991 in memory) is 2000 instead of only 1990
             while(i + j < result.getLength() && resultDigits[i + j].addDigit(Digit(1, false))) {
                 j++;
             }
+            // Add carry if outside of range (highest digit) so 1 + 999 is 1000 instead of 000
             if(i + j == result.getLength()) {
                 result.incLength();
                 resultDigits.push_back(Digit(1, true));
@@ -67,8 +75,13 @@ void subDigitLoop(Number& result, Number secondNumber, int i) {
     int j;
     std::vector<Digit>& resultDigits = result.getDigits();
     std::vector<Digit>& secondNumberDigits = secondNumber.getDigits();
+
+    // Subtract digit from index i. If there is a borrow, it returns true.
+    // For example: ..7 - ..9 == true and ..7 - ...6 == false
     if(resultDigits[i].subDigit(secondNumberDigits[i])) {
         j = 1;
+
+        // Propagatin borrow, so 1007 - 9 (7001 in memory) is 998 instead of 1009
         while(i + j < result.getLength() && resultDigits[i + j].subDigit(Digit(1, false))) {
             j++;
         }
@@ -82,6 +95,8 @@ Number Number::doOperation(Number secondNumber, bool subtract) {
     }
     int j;
 
+    // If subtract == false: adds every digit from secondNumber to result
+    // If subtract == true: subtracts every digit from result with secondNumber
     for(int i = 0; i < secondNumber.getLength(); i++) {
         if(subtract) {
             subDigitLoop(result, secondNumber, i);  
@@ -100,22 +115,19 @@ void Number::printNumber() {
     } else {
         std::cout << "+"; 
     }
-    bool digitStarted = false;
-    for(int i = length - 1; i >= 0; i--) {
-        if(!digitStarted && digits[i].getDigit() != 0) {
+
+    int i = getLengthWithoutLeading() - 1;
+    while(i >= 0) {
             digits[i].printDigit();
-            digitStarted = true;
-        } else if(digitStarted) {
-            digits[i].printDigit();
-        }
+            i--;
     }
-    if(!digitStarted) {
-        std::cout << '0';
-    }
+
     std::cout << std::endl;
 }
 
 void Number::emptyNumber() {
+    // Makes the number == 0
+    // So [1,4,0,5] == [0,0,0,0]
     digits.assign(length, Digit(0, false));
 }
 
@@ -139,6 +151,10 @@ int Number::getLength() {
 }
 
 int Number::getLengthWithoutLeading() {
+    // Gets the length of the number without leading zeroes.
+    // Useful in cases where, due to subtraction the resulting
+    // number got smaller.
+    // [2,0,0,0]: length = 4; getLengthWithoutLeading() = 1
     int i = this->length - 1;
     while(i > 0) {
         if(digits[i].getDigit() != 0){
@@ -151,7 +167,10 @@ int Number::getLengthWithoutLeading() {
 
 int Number::compareAbsWith(Number secondNumber) {
     int lengthWithoutZeroes = getLengthWithoutLeading();
-
+    // Compares absolute values of number with a secondNumber
+    // 1 == secondNumber has bigger abs val
+    // 0 == same abs val
+    // -1 == number has bigger abs val
     if(secondNumber.getLength() > lengthWithoutZeroes) {
         return 1;
     } else if(secondNumber.getLength() < lengthWithoutZeroes) {

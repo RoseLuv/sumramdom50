@@ -3,7 +3,10 @@
 TODO:
     Refactor calcResult();
     Update prev tests and add to tests all other methods
-    Change compareAbs and getactualnumberlength from controller to 
-    number
-    Rethink add and sub to see if it can be changed into one method
-    
+
+    Line: if(calculatingNumber.getLength() > resultNumber.getLengthWithoutLeading()) {
+                resultNumber = calculatingNumber.doOperation(resultNumber, false);
+            } else {
+                resultNumber = resultNumber.doOperation(calculatingNumber, false); 
+            }
+    in controller.cpp possibly not needed due to changes in doOperation

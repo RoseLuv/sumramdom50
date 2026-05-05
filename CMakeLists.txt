@@ -12,3 +12,6 @@ add_executable(sumrandom50
     src/digit.cpp
     src/number.cpp
 )
+
+add_compile_options(-g -Wall -Wextra -Wpedantic)
+

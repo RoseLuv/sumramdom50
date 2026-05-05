@@ -49,8 +49,8 @@ void Number::genNumber() {
 
 void addDigitLoop(Number& result, Number secondNumber, int i){
     int j;
-    std::vector<Digit> resultDigits = result.getDigits();
-    std::vector<Digit> secondNumberDigits = secondNumber.getDigits();
+    std::vector<Digit>& resultDigits = result.getDigits();
+    std::vector<Digit>& secondNumberDigits = secondNumber.getDigits();
     if(resultDigits[i].addDigit(secondNumberDigits[i])){
             j = 1;
             while(i + j < result.getLength() && resultDigits[i + j].addDigit(Digit(1, false))) {
@@ -65,8 +65,8 @@ void addDigitLoop(Number& result, Number secondNumber, int i){
 
 void subDigitLoop(Number& result, Number secondNumber, int i) {
     int j;
-    std::vector<Digit> resultDigits = result.getDigits();
-    std::vector<Digit> secondNumberDigits = secondNumber.getDigits();
+    std::vector<Digit>& resultDigits = result.getDigits();
+    std::vector<Digit>& secondNumberDigits = secondNumber.getDigits();
     if(resultDigits[i].subDigit(secondNumberDigits[i])) {
         j = 1;
         while(i + j < result.getLength() && resultDigits[i + j].subDigit(Digit(1, false))) {

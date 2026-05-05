@@ -20,16 +20,16 @@ void Controller::calcResult() {
         if(resultNumber.isNegative() && calculatingNumber.isNegative() ||
             !resultNumber.isNegative() && !calculatingNumber.isNegative()) {
             if(calculatingNumber.getLength() > resultNumber.getLengthWithoutLeading()) {
-                resultNumber = calculatingNumber.addNumber(resultNumber);
+                resultNumber = calculatingNumber.doOperation(resultNumber, false);
             } else {
-                resultNumber = resultNumber.addNumber(calculatingNumber); 
+                resultNumber = resultNumber.doOperation(calculatingNumber, false); 
             }
         } else {
             absDifference = resultNumber.compareAbsWith(calculatingNumber);
             if(absDifference == 1) {
-                resultNumber = calculatingNumber.subNumber(resultNumber);
+                resultNumber = calculatingNumber.doOperation(resultNumber, true);
             } else {
-                resultNumber = resultNumber.subNumber(calculatingNumber);
+                resultNumber = resultNumber.doOperation(calculatingNumber, true);
             }
         }
         calculatingNumber.incLength();

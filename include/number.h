@@ -24,4 +24,5 @@ public:
     int getLength();
     int getLengthWithoutLeading();
     int compareAbsWith(Number);
+    Number doOperation(Number secondNumber, bool subtract);
 };

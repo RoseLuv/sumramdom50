@@ -42,51 +42,57 @@ void Number::genNumber() {
         digits.push_back(Digit());
         digits.back().genDigit(false);
     }
+
     digits.push_back(Digit());
     digits.back().genDigit(true);
 }
 
-Number Number::addNumber(const Number numberToAdd) {
-    Number result = *this;
-    if (numberToAdd.length > 50 || numberToAdd.length < 1) {
-        return result;
-    }
-    
+void addDigitLoop(Number& result, Number secondNumber, int i){
     int j;
-    // Adds up two digits 
-    for(int i = 0; i < numberToAdd.length; i++) {
-        if(result.digits[i].addDigit(numberToAdd.digits[i])){
+    std::vector<Digit> resultDigits = result.getDigits();
+    std::vector<Digit> secondNumberDigits = secondNumber.getDigits();
+    if(resultDigits[i].addDigit(secondNumberDigits[i])){
             j = 1;
-            while(i + j < result.length && result.digits[i + j].addDigit(Digit(1, false))) {
+            while(i + j < result.getLength() && resultDigits[i + j].addDigit(Digit(1, false))) {
                 j++;
             }
-            if(i + j == result.length) {
+            if(i + j == result.getLength()) {
                 result.incLength();
-                result.digits.push_back(Digit(1, true));
+                resultDigits.push_back(Digit(1, true));
             }
         }
-    }
-    return result;
 }
 
+void subDigitLoop(Number& result, Number secondNumber, int i) {
+    int j;
+    std::vector<Digit> resultDigits = result.getDigits();
+    std::vector<Digit> secondNumberDigits = secondNumber.getDigits();
+    if(resultDigits[i].subDigit(secondNumberDigits[i])) {
+        j = 1;
+        while(i + j < result.getLength() && resultDigits[i + j].subDigit(Digit(1, false))) {
+            j++;
+        }
+    }
+}
 
-Number Number::subNumber(Number numberToSub) {
+Number Number::doOperation(Number secondNumber, bool subtract) {
     Number result = *this;
-
-    if(numberToSub.length > 50 || numberToSub.length < 1) {
+    if(secondNumber.getLength() < 1) {
         return result;
     }
     int j;
-    for(int i = 0; i < numberToSub.length; i++) {
-        if(result.digits[i].subDigit(numberToSub.digits[i])) {
-            j = 1;
-            while(i + j < result.length && result.digits[i + j].subDigit(Digit(1, false))) {
-                j++;
-            }
+
+    for(int i = 0; i < secondNumber.getLength(); i++) {
+        if(subtract) {
+            subDigitLoop(result, secondNumber, i);  
+        } else {
+            addDigitLoop(result, secondNumber, i);
         }
     }
+
     return result;
 }
+
 
 void Number::printNumber() {
     if(negative) {
@@ -124,7 +130,6 @@ bool Number::isNegative() {
     return this->negative;
 }
 
-
 std::vector<Digit>& Number::getDigits() {
     return this->digits;
 }
@@ -146,6 +151,7 @@ int Number::getLengthWithoutLeading() {
 
 int Number::compareAbsWith(Number secondNumber) {
     int lengthWithoutZeroes = getLengthWithoutLeading();
+
     if(secondNumber.getLength() > lengthWithoutZeroes) {
         return 1;
     } else if(secondNumber.getLength() < lengthWithoutZeroes) {
@@ -160,5 +166,6 @@ int Number::compareAbsWith(Number secondNumber) {
             return 1;
         }
     }
+
     return 0;
 }

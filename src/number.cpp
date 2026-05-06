@@ -16,7 +16,7 @@ Number::Number(int length) {
         this->length = length;
     }
     
-    digits.resize(length, Digit(0, false));
+    digits.resize(this->length, Digit(0, false));
     negative = false;
 }
 

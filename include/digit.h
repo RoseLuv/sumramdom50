@@ -9,7 +9,6 @@ public:
     bool addDigit(Digit);
     void printDigit();
     bool subDigit(Digit);
-    bool subCarry();
     unsigned char getDigit();
 private:
     unsigned char digit;

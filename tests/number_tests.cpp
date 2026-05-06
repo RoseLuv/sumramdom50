@@ -27,7 +27,7 @@ void addTwoNumbersSimple() {
         correctResultDigits.push_back(Digit(8, false));
     }
     std::cout << "Second Number digits: ";
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     
     std::cout << "Expecting: 888888888\n";
@@ -73,7 +73,7 @@ void addTwoNumbersWithCarry() {
         correctResultDigits.push_back(Digit(0, false));
     }
     correctResultDigits.push_back(Digit(2, false));
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     
     std::cout << "Expecting: ";
@@ -129,7 +129,7 @@ void multipleCarryTest() {
         correctResultDigits[i].printDigit();
     }
     std::cout << "\nResult: ";
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     secondNum.printNumber();
 
@@ -172,7 +172,7 @@ void subPosToNeg() {
     }
 
     std::cout << "\nResult: ";
-    secondNum.subNumber(firstNum);
+    secondNum = firstNum.doOperation(secondNum, true);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     secondNum.printNumber();
 
@@ -182,10 +182,9 @@ void subPosToNeg() {
     }
     std::cout << "Assert check passed!\n";
 
-    // CORRECT SIGN IS NOT TESTED BECAUSE CONTROLLER CHANGES IT, NOT NUMBER
-    // SIGN DOES NOT CHANGE BECAUSE THE CONTROLLER CHANGES IT, NOT NUMBER
+
     std::cout << "Assert check: Correct sign\n";
-    assert(secondNum.isNegative());
+    assert(!secondNum.isNegative());
     std::cout << "Assert check passed!\n";
 }
 
@@ -216,7 +215,7 @@ void subNegToPos() {
     }
 
     std::cout << "\nResult: ";
-    secondNum.subNumber(firstNum);
+    secondNum = firstNum.doOperation(secondNum, true);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     secondNum.printNumber();
 
@@ -226,10 +225,8 @@ void subNegToPos() {
     }
     std::cout << "Assert check passed!\n";
 
-    // CORRECT SIGN IS NOT TESTED BECAUSE CONTROLLER CHANGES IT, NOT NUMBER
-    // SIGN DOES NOT CHANGE BECAUSE THE CONTROLLER CHANGES IT, NOT NUMBER
     std::cout << "Assert check: Correct sign\n";
-    assert(!secondNum.isNegative());
+    assert(secondNum.isNegative());
     std::cout << "Assert check passed!\n";
 
 }
@@ -262,7 +259,7 @@ void addNumToZero() {
     }
 
     std::cout << "\nResult: ";
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     secondNum.printNumber();
 
@@ -272,39 +269,10 @@ void addNumToZero() {
     }
     std::cout << "Assert check passed!\n";
 
-    // CORRECT SIGN IS NOT TESTED BECAUSE CONTROLLER CHANGES IT, NOT NUMBER
-    // SIGN DOES NOT CHANGE BECAUSE THE CONTROLLER CHANGES IT, NOT NUMBER
     std::cout << "Assert check: Correct sign\n";
     assert(!secondNum.isNegative());
     std::cout << "Assert check passed!\n";
 
-}
-
-void negateTest() {
-    std::cout << "------------------------------------------------------------------\n";
-    std::cout << "Testing: negate()\n";
-    Number testNumber(5);
-    testNumber.genNumber();
-    bool testNumberStartingSign = testNumber.isNegative();
-    std::cout << "Starting as: ";
-    if(testNumber.isNegative()) {
-        std::cout << "Negative\n";
-    } else {
-        std::cout << "Positive\n";
-    }
-
-    testNumber.negate();
-    
-    std::cout << "After calling negate(): ";
-    if(testNumber.isNegative()) {
-        std::cout << "Negative\n";
-    } else {
-        std::cout << "Positive\n";
-    }
-
-    std::cout << "Assert check: Correct sign after negate\n";
-    assert(testNumberStartingSign != testNumber.isNegative());
-    std::cout << "Assert check passed!\n";
 }
 
 void addTwoNegNumbersSimple() {
@@ -330,7 +298,7 @@ void addTwoNegNumbersSimple() {
         correctResultDigits.push_back(Digit(8, false));
     }
     std::cout << "Second Number digits: ";
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     
     std::cout << "Expecting: 888888888\n";
@@ -346,6 +314,30 @@ void addTwoNegNumbersSimple() {
     std::cout << "Assert check: Correct sign\n";
     assert(secondNum.isNegative());
     std::cout << "Assert check passed!\n";
+}
+
+void addNegToPosHeavyCarry() {
+    std::cout << "------------------------------------------------------------------\n";
+    std::cout << "Testing: Add Two Numbers\nCombine number +1000 and -1\n";
+    std::vector<Digit> firstDigits;
+    std::vector<Digit> secondDigits;
+    for(int i = 0; i < 3; i++) {
+        firstDigits.push_back(Digit(0, false));
+    }
+    firstDigits.push_back(Digit(1, true));
+
+    secondDigits.push_back(Digit(1, true));
+
+    Number firstNumber(firstDigits.size(), firstDigits, false);
+    Number secondNumber(secondDigits.size(), secondDigits, true);
+
+    firstNumber = firstNumber.doOperation(secondNumber, true);
+    firstNumber.printNumber();
+
+    for(int i = 0; i < firstNumber.getLengthWithoutLeading(); i++) {
+        assert(firstNumber.getDigits()[i].getDigit() == 9);
+    }
+
 }
 
 void addTwoNegNumbersWithCarry() {
@@ -376,7 +368,7 @@ void addTwoNegNumbersWithCarry() {
         correctResultDigits.push_back(Digit(0, false));
     }
     correctResultDigits.push_back(Digit(2, false));
-    secondNum.addNumber(firstNum);
+    secondNum = secondNum.doOperation(firstNum, false);
     std::vector<Digit> resultDigits = secondNum.getDigits();
     
     std::cout << "Expecting: ";
@@ -396,6 +388,8 @@ void addTwoNegNumbersWithCarry() {
     assert(secondNum.isNegative());
     std::cout << "Assert check passed!\n";
 }
+
+
 
 void constructorLengthHigh() {
     std::cout << "------------------------------------------------------------------\n";
@@ -476,6 +470,7 @@ void emptyNumberTest() {
     std::cout << "Assert check passed!\n";
 }
 
+/*
 void numbersTest() {
     std::cout << "-------------------------------\n";
     std::vector<Digit> firstDigits;
@@ -497,10 +492,12 @@ void numbersTest() {
 
     firstNum.printNumber();
     secondNum.printNumber();
-    secondNum.subNumber(firstNum);
-    secondNum.negate();
-    secondNum.printNumber();
+    firstNum = secondNum.doOperation(firstNum, false);
+    firstNum.printNumber();
 }
+*/
+
+
 
 int main() {
     srand(time(NULL));
@@ -509,7 +506,6 @@ int main() {
     multipleCarryTest();
     subPosToNeg();
     subNegToPos();
-    negateTest();
     addNumToZero();
     addTwoNegNumbersSimple();
     addTwoNegNumbersWithCarry();
@@ -518,6 +514,7 @@ int main() {
     incLengthTest();
     genNumberTest();
     emptyNumberTest();
-    numbersTest();
+    //numbersTest();
+    addNegToPosHeavyCarry();
     return 0;
 }

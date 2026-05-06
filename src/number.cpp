@@ -28,10 +28,7 @@ Number::Number(int length, std::vector<Digit> digits, bool neg) {
 }
 
 void Number::genNumber() {
-    // Change this, its bad, rethink this
-
-    digits.clear();
-    digits.reserve(length);
+    digits.resize(length, Digit(0, false));
     
     // Choose at random the sign
     if(rand() % 2 == 0) {
@@ -41,13 +38,11 @@ void Number::genNumber() {
     }
 
     // Generate digits from 0 - 9
-    for(int i = 1; i < length; i++) {
-        digits.push_back(Digit());
-        digits.back().genDigit(false);
+    for(int i = 0; i < length - 1; i++) {
+        digits[i].genDigit(false);
     }
 
     // Generate most significant number from 1 - 9
-    digits.push_back(Digit());
     digits.back().genDigit(true);
 }
 

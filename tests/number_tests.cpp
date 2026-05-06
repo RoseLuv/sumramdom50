@@ -389,8 +389,6 @@ void addTwoNegNumbersWithCarry() {
     std::cout << "Assert check passed!\n";
 }
 
-
-
 void constructorLengthHigh() {
     std::cout << "------------------------------------------------------------------\n";
     std::cout << "Testing: Constructor length is too high\n";
@@ -470,33 +468,67 @@ void emptyNumberTest() {
     std::cout << "Assert check passed!\n";
 }
 
-/*
-void numbersTest() {
-    std::cout << "-------------------------------\n";
-    std::vector<Digit> firstDigits;
-    std::vector<Digit> secondDigits;
-    std::vector<Digit> correctResultDigits;
+void getLengthWithoutLeadingTest() {
+    std::cout << "------------------------------------------------------------------\n";
+    std::cout << "Testing: getLengthWithoutLeading\n";
+    std::vector<Digit> testDigits;
+    for(int i = 0; i < 10; i++) {
+        testDigits.push_back(Digit(0, false));
+    }
+    Number testNumber(testDigits.size(), testDigits, false);
+    assert(testNumber.getLengthWithoutLeading() == 1);
 
-    firstDigits.push_back(Digit(4, false));
-    firstDigits.push_back(Digit(0, false));
-    firstDigits.push_back(Digit(0, false));
-    firstDigits.push_back(Digit(1, false));
+    testDigits.clear();
+    testDigits.push_back(Digit(1, false));
+    for(int i = 0; i < 10; i++) {
+        testDigits.push_back(Digit(0, false));
+    }
 
-    secondDigits.push_back(Digit(2, false));
-    secondDigits.push_back(Digit(0, false));
-    secondDigits.push_back(Digit(0, false));
-    secondDigits.push_back(Digit(1, false));
+    testNumber = Number(testDigits.size(), testDigits, false);
+    assert(testNumber.getLengthWithoutLeading() == 1);
 
-    Number firstNum(firstDigits.size(), firstDigits, true);
-    Number secondNum(secondDigits.size(), secondDigits, false);
+    testDigits.clear();
+    for(int i = 0; i < 3; i++){
+        testDigits.push_back(Digit(i, false));
+    }
+    for(int i = 0; i < 10; i++) {
+        testDigits.push_back(Digit(0, false));
+    }
 
-    firstNum.printNumber();
-    secondNum.printNumber();
-    firstNum = secondNum.doOperation(firstNum, false);
-    firstNum.printNumber();
+    testNumber = Number(testDigits.size(), testDigits, false);
+    assert(testNumber.getLengthWithoutLeading() == 3);
 }
-*/
 
+void compareAbsWithTest() {
+    std::cout << "------------------------------------------------------------------\n";
+    std::cout << "Testing: compareAbsWith\n";
+    std::vector<Digit> firstDigit;
+    std::vector<Digit> secondDigit;
+
+    for(int i = 0; i < 10; i++){
+        firstDigit.push_back(Digit(i, false));
+        secondDigit.push_back(Digit(10 - i, false));
+    }
+
+    Number firstNumber(firstDigit.size(), firstDigit, false);
+    Number secondNumber(secondDigit.size(), secondDigit, false);
+
+    assert(firstNumber.compareAbsWith(secondNumber) == -1);
+    assert(secondNumber.compareAbsWith(firstNumber) == 1);
+
+    firstDigit.clear();
+    secondDigit.clear();
+    for(int i = 0; i < 5; i++) {
+        firstDigit.push_back(Digit(1, false));
+        secondDigit.push_back(Digit(1, false));
+    }
+
+    firstNumber = Number(firstDigit.size(), firstDigit, false);
+    secondNumber = Number(secondDigit.size(), secondDigit, false);
+
+    assert(firstNumber.compareAbsWith(secondNumber) == 0);
+    assert(secondNumber.compareAbsWith(firstNumber) == 0);
+}
 
 
 int main() {
@@ -514,7 +546,9 @@ int main() {
     incLengthTest();
     genNumberTest();
     emptyNumberTest();
-    //numbersTest();
     addNegToPosHeavyCarry();
+    getLengthWithoutLeadingTest();
+    compareAbsWithTest();
+    std::cout << "All passed!\n";
     return 0;
 }

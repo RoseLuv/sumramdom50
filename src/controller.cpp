@@ -32,7 +32,7 @@ void Controller::calcResult() {
             }
         } else {
             // Subtracts two numbers if they have a different sign
-            // Subtracts the smaller number from the larger one
+            // Subtracts the smaller (abs val) number from the larger one
             absDifference = resultNumber.compareAbsWith(calculatingNumber);
             if(absDifference == 1) {
                 resultNumber = calculatingNumber.doOperation(resultNumber, true);

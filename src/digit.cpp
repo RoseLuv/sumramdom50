@@ -16,7 +16,7 @@ Digit::Digit(unsigned char inputDigit, bool firstDigit){
 };
 
 void Digit::genDigit(bool firstDigit) {
-    // Generates a pseudo-random number
+    // Generates a pseudo-random digit
     if(firstDigit) {
         this->digit = rand() % 9 + 1;
     } else {
@@ -24,18 +24,18 @@ void Digit::genDigit(bool firstDigit) {
     }
 }
 
-bool Digit::addDigit(Digit digitToAdd) {
-    // adds two digits together
+bool Digit::addDigit(Digit secondDigit) {
+    // adds secondDigit to this-:digit
     // returns true if there is a carry
     // false otherwise
 
 
     // Invalid input check
-    if(digitToAdd.digit > 9) {
+    if(secondDigit.digit > 9) {
         return false;
     }
 
-    this->digit += digitToAdd.digit;
+    this->digit += secondDigit.digit;
     
     // Carry control
     if(this->digit >= 10) {
@@ -46,21 +46,21 @@ bool Digit::addDigit(Digit digitToAdd) {
     return false;
 }
 
-bool Digit::subDigit(Digit digitToSub) {
+bool Digit::subDigit(Digit secondDigit) {
     // subtracts two digits together
     // returns true if there is a borrow needed
     // false otherwise
 
-    if (digitToSub.digit > 9) {
+    if (secondDigit.digit > 9) {
         return false;
     } 
 
-    if (this->digit >= digitToSub.digit) {
-        this->digit = this->digit - digitToSub.digit;
+    if (this->digit >= secondDigit.digit) {
+        this->digit = this->digit - secondDigit.digit;
         return false; 
     }
 
-    this->digit = 10 + this->digit - digitToSub.digit;
+    this->digit = 10 + this->digit - secondDigit.digit;
     return true;
 }
 

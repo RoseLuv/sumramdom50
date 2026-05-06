@@ -3,7 +3,7 @@
 #include <iostream>
 
 Number::Number() : length(51){
-    digits.reserve(51);
+    digits.resize(length, Digit(0, false));
     negative = false;
 }
 
@@ -15,8 +15,8 @@ Number::Number(int length) {
     } else {
         this->length = length;
     }
-
-    digits.reserve(this->length);
+    
+    digits.resize(length, Digit(0, false));
     negative = false;
 }
 
@@ -76,7 +76,7 @@ void subDigitLoop(Number& result, Number secondNumber, int i) {
     if(resultDigits[i].subDigit(secondNumberDigits[i])) {
         j = 1;
 
-        // Propagatin borrow, so 1007 - 9 (7001 in memory) is 998 instead of 1009
+        // Propagating borrow, so 1007 - 9 (7001 in memory) is 998 instead of 1009
         while(i + j < result.getLength() && resultDigits[i + j].subDigit(Digit(1, false))) {
             j++;
         }
@@ -84,6 +84,9 @@ void subDigitLoop(Number& result, Number secondNumber, int i) {
 }
 
 Number Number::doOperation(Number secondNumber, bool subtract) {
+    // For addition: This has to have at least the lenght of secondNumber.
+    // For subtraction: This has to have a higher/equal absolute value
+    // See controller.cpp for more info as to how to check it.
     Number result = *this;
     if(secondNumber.getLength() < 1) {
         return result;

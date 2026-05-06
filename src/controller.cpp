@@ -55,7 +55,7 @@ void Controller::printResult() {
     } else {
         std::cout << '+';
     }
-    while(i != 0 && digitsPrinted != 10) {
+    while(i >= 0 && digitsPrinted != 10) {
         resultNumberDigits[i].printDigit();
         i--;
         digitsPrinted++;
